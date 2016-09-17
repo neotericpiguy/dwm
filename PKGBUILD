@@ -1,6 +1,6 @@
 pkgname=dwm-git
 _pkgname=dwm
-pkgver=20151219.3465bed
+pkgver=20160812.ab9571b
 pkgrel=1
 pkgdesc="A dynamic window manager for X with useful patches"
 arch=('i686' 'x86_64')
@@ -37,7 +37,7 @@ prepare() {
 
   cp "$startdir/config.h" .
   
-  git apply $startdir/patches/*.diff
+  git apply $startdir/patches/layouts.diff
 }
 
 build() {
