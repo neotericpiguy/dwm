@@ -1,5 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
+#include "fibonacci.c"
+#include "push.c"
+#include "zoomswap.c"
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -7,14 +11,16 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_white[]       = "#ffffff";
-static const char col_gray[]        = "#aaaaaa";
-static const char col_black[]       = "#000000";
-
-static const char *colors[SchemeLast][3]      = {
+static const char normbordercolor[] = "#000000";
+static const char normbgcolor[]     = "#000000";
+static const char normfgcolor[]     = "#eeeeee";
+static const char selbordercolor[]  = "#999999";
+static const char selbgcolor[]      = "#111111";
+static const char selfgcolor[]      = "#eeeeee";
+static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray, col_black, col_black },
-	[SchemeSel] =  { col_white, col_black, col_white  },
+	[SchemeNorm] = { normfgcolor, normbgcolor, normbgcolor},
+	[SchemeSel] =  { selfgcolor, selbgcolor,  selbordercolor},
 };
 
 /* tagging */
@@ -56,9 +62,10 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_black, "-nf", col_gray, "-sb", col_black, "-sf", col_white, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static char dmenumon[2]        = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *termcmd[]   = { "st", NULL };
+static const char *chromecmd[] = { ".bin/google-bookmarks",NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */

@@ -1,6 +1,6 @@
 pkgname=dwm-git
 _pkgname=dwm
-pkgver=20160812.ab9571b
+pkgver=20161205.e63bf22
 pkgrel=1
 pkgdesc="A dynamic window manager for X with useful patches"
 arch=('i686' 'x86_64')
@@ -13,11 +13,14 @@ provides=("$_pkgname")
 conflicts=("$_pkgname")
 epoch=1
 
-source=("$_pkgname::git+http://git.suckless.org/dwm"
-        'config.h')
+# source=("$_pkgname::git+http://git.suckless.org/dwm"
+#         'config.h')
+# md5sums=('SKIP'
+#          'SKIP')
 
-md5sums=('SKIP'
-         'SKIP')
+source=("$_pkgname::git+http://git.suckless.org/dwm")
+md5sums=('SKIP')
+
 
 pkgver(){
   cd $_pkgname
@@ -36,8 +39,16 @@ prepare() {
   -i config.mk
 
   cp "$startdir/config.h" .
+
+  git reset --hard HEAD~1
   
-  git apply $startdir/patches/layouts.diff
+#  git apply $startdir/patches/*.diff || true
+
+ git apply $startdir/patches/dwm-5.8.2-fibonacci.diff|| true
+ git apply $startdir/patches/dwm-6.1.new-zoomswap.diff|| true
+ git apply $startdir/patches/dwm-6.1-push.diff|| true
+ git apply $startdir/patches/pertagpatch6.1.diff|| true
+ git apply $startdir/patches/tcl.diff|| true
 }
 
 build() {
