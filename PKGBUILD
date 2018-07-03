@@ -40,19 +40,19 @@ prepare() {
 
   cp "$startdir/config.h" .
 
-  git reset --hard HEAD~1
+  git reset --hard HEAD~3
   
 #  git apply $startdir/patches/*.diff || true
 
  git reset e63bf22 --hard
 
- git apply $startdir/patches/dwm-5.8.2-fibonacci.diff 
- git apply $startdir/patches/dwm-6.1-push.diff
- git apply $startdir/patches/dwm-6.1.new-zoomswap.diff 
- git apply $startdir/patches/tcl.diff 
- git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff
- git apply $startdir/patches/pertagpatch6.1.diff 
-
+ git apply $startdir/patches/dwm-5.8.2-fibonacci.diff  || true
+ git apply $startdir/patches/dwm-6.1-push.diff || true
+ git apply $startdir/patches/dwm-6.1.new-zoomswap.diff  || true
+ git apply $startdir/patches/tcl.diff  || true
+ git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff || true
+ git apply $startdir/patches/pertagpatch6.1.diff  || true
+ git apply $startdir/patches/dwm-warp-git-20160626-7af4d43.diff || true
 }
 
 build() {
