@@ -1,6 +1,6 @@
 pkgname=dwm-git
 _pkgname=dwm
-pkgver=20161205.e63bf22
+pkgver=20190202.cb3f58a
 pkgrel=1
 pkgdesc="A dynamic window manager for X with useful patches"
 arch=('i686' 'x86_64')
@@ -38,21 +38,30 @@ prepare() {
   -e 's/LDFLAGS *=/LDFLAGS +=/g' \
   -i config.mk
 
+  git reset --hard 
+  rm fibonacci.c
+  rm push.c
+  rm zoomswap.c
+
   cp "$startdir/config.h" .
 
-  git reset --hard HEAD~3
-  
-#  git apply $startdir/patches/*.diff || true
+  #fibonacci layout
+  git apply $startdir/patches/dwm-5.8.2-fibonacci.diff 
+  #Move around client windows
+  git apply $startdir/patches/dwm-6.1-push.diff
+  #Swap with master
+  git apply $startdir/patches/dwm-6.1.new-zoomswap.diff 
+  #center column layout
+  git apply $startdir/patches/tcl.diff
 
- git reset e63bf22 --hard
+  #layouts are saved per tag
+  git apply $startdir/patches/dwm-pertag-20170513-ceac8c9.diff
+  #when ever you move to a window move the cursor
+  git apply $startdir/patches/dwm-warp-git-2019.diff
 
- git apply $startdir/patches/dwm-5.8.2-fibonacci.diff  || true
- git apply $startdir/patches/dwm-6.1-push.diff || true
- git apply $startdir/patches/dwm-6.1.new-zoomswap.diff  || true
- git apply $startdir/patches/tcl.diff  || true
- git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff || true
- git apply $startdir/patches/pertagpatch6.1.diff  || true
- git apply $startdir/patches/dwm-warp-git-20160626-7af4d43.diff || true
+   git apply $startdir/patches/useless.diff
+#  git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff || true
+
 }
 
 build() {
