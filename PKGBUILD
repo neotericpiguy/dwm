@@ -39,9 +39,9 @@ prepare() {
   -i config.mk
 
   git reset --hard 
-  rm fibonacci.c
-  rm push.c
-  rm zoomswap.c
+  rm -f fibonacci.c
+  rm -f push.c
+  rm -f zoomswap.c
 
   cp "$startdir/config.h" .
 
@@ -59,7 +59,7 @@ prepare() {
   #when ever you move to a window move the cursor
   git apply $startdir/patches/dwm-warp-git-2019.diff
 
-   git apply $startdir/patches/useless.diff
+   git apply $startdir/patches/dwm-uselessgap-2019.diff
 #  git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff || true
 
 }
