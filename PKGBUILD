@@ -60,8 +60,7 @@ prepare() {
   git apply $startdir/patches/dwm-warp-git-2019.diff
 
    git apply $startdir/patches/dwm-uselessgap-2019.diff
-#  git apply $startdir/patches/dwm-noborder-20160718-56a31dc.diff || true
-
+   patch -p1 < $startdir/patches/dwm-attachaside-2019.diff
 }
 
 build() {
