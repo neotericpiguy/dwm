@@ -73,12 +73,14 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char* dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL};
 static const char* termcmd[] = {"st", NULL};
 static const char* slockcmd[] = {"slock", NULL};
+static const char* passmenucmd[] = {"passmenu", NULL};
 static const char* chromecmd[] = {".bin/google-bookmarks", NULL};
 static const char* emojicmd[] = {".bin/dmenu-emoji.sh", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
-    {MODKEY | ShiftMask, XK_p, spawn, {.v = emojicmd}},
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = emojicmd}},
+    {MODKEY | ShiftMask, XK_p, spawn, {.v = passmenucmd}},
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_l, spawn, {.v = slockcmd}},
