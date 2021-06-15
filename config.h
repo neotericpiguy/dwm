@@ -76,11 +76,13 @@ static const char* slockcmd[] = {"slock", NULL};
 static const char* passmenucmd[] = {"passmenu", NULL};
 static const char* chromecmd[] = {".bin/google-bookmarks", NULL};
 static const char* emojicmd[] = {".bin/dmenu-emoji.sh", NULL};
+static const char* snipcmd[] = {".bin/snip", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY | ShiftMask, XK_e, spawn, {.v = emojicmd}},
     {MODKEY | ShiftMask, XK_p, spawn, {.v = passmenucmd}},
+    {MODKEY | ShiftMask, XK_s, spawn, {.v = snipcmd}},
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_l, spawn, {.v = slockcmd}},

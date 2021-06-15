@@ -38,7 +38,7 @@ prepare() {
   -e 's/LDFLAGS *=/LDFLAGS +=/g' \
   -i config.mk
 
-  git reset --hard 
+  git reset --hard cb3f58a
   rm -f fibonacci.c
   rm -f push.c
   rm -f zoomswap.c
