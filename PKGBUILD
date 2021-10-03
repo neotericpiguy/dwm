@@ -1,6 +1,6 @@
 pkgname=dwm-git
 _pkgname=dwm
-pkgver=20190202.cb3f58a
+pkgver=20210820.a786211
 pkgrel=1
 pkgdesc="A dynamic window manager for X with useful patches"
 arch=('i686' 'x86_64')
@@ -38,33 +38,13 @@ prepare() {
   -e 's/LDFLAGS *=/LDFLAGS +=/g' \
   -i config.mk
 
-  git reset --hard cb3f58a
-  rm -f fibonacci.c
-  rm -f push.c
-  rm -f zoomswap.c
+  git reset --hard a786211
+  rm -f push.c zoomswap.c
 
   cp "$startdir/config.h" .
 
-  #fibonacci layout
-  git apply $startdir/patches/dwm-5.8.2-fibonacci.diff 
-  #Move around client windows
-  git apply $startdir/patches/dwm-6.1-push.diff
-  #Swap with master
-  git apply $startdir/patches/dwm-6.1.new-zoomswap.diff 
-  #center column layout
-  git apply $startdir/patches/tcl.diff
-
-  #layouts are saved per tag
-  git apply $startdir/patches/dwm-pertag-20170513-ceac8c9.diff
-  #when ever you move to a window move the cursor
-  git apply $startdir/patches/dwm-warp-git-2019.diff
-
-  git apply $startdir/patches/dwm-uselessgap-2019.diff
-  patch -p1 < $startdir/patches/dwm-attachaside-2019.diff
-
   #n masters center column layout
-  git apply $startdir/patches/ntcl.diff
-
+  git apply $startdir/patches/dwm-A786211-updates.diff
 }
 
 build() {
