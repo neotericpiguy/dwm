@@ -47,7 +47,7 @@ static const Layout layouts[] = {
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
     {"[M]", monocle},
-    {"|||", tcl},
+    {"|||", ntcl},
     {"[@]", spiral},
 };
 
@@ -74,15 +74,19 @@ static const char* dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, 
 static const char* termcmd[] = {"st", NULL};
 static const char* slockcmd[] = {"slock", NULL};
 static const char* passmenucmd[] = {"passmenu", NULL};
-static const char* chromecmd[] = {".bin/google-bookmarks", NULL};
-static const char* emojicmd[] = {".bin/dmenu-emoji.sh", NULL};
-static const char* snipcmd[] = {".bin/snip", NULL};
+static const char* chromecmd[] = {"google-bookmarks", NULL};
+static const char* emojicmd[] = {"dmenu-emoji.sh", NULL};
+static const char* snipcmd[] = {"snip", NULL};
+static const char* phonecmd[] = {"phone", NULL};
+static const char* andSelectQuest[] = {"and", "selectQuest", NULL};
+static const char* andAccept[] = {"and", "mapleAccept", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY | ShiftMask, XK_e, spawn, {.v = emojicmd}},
     {MODKEY | ShiftMask, XK_p, spawn, {.v = passmenucmd}},
     {MODKEY | ShiftMask, XK_s, spawn, {.v = snipcmd}},
+    {MODKEY | ShiftMask, XK_a, spawn, {.v = phonecmd}},
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_l, spawn, {.v = slockcmd}},

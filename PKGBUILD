@@ -59,8 +59,12 @@ prepare() {
   #when ever you move to a window move the cursor
   git apply $startdir/patches/dwm-warp-git-2019.diff
 
-   git apply $startdir/patches/dwm-uselessgap-2019.diff
-   patch -p1 < $startdir/patches/dwm-attachaside-2019.diff
+  git apply $startdir/patches/dwm-uselessgap-2019.diff
+  patch -p1 < $startdir/patches/dwm-attachaside-2019.diff
+
+  #n masters center column layout
+  git apply $startdir/patches/ntcl.diff
+
 }
 
 build() {
