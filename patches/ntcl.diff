@@ -1,5 +1,5 @@
 diff --git a/dwm.c b/dwm.c
-index 2661d55..26ea4ce 100644
+index 2661d55..cb65c0d 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -186,6 +186,7 @@ static void mappingnotify(XEvent *e);
@@ -10,7 +10,7 @@ index 2661d55..26ea4ce 100644
  static void motionnotify(XEvent *e);
  static void movemouse(const Arg *arg);
  static Client *nexttagged(Client *c);
-@@ -1234,6 +1235,104 @@ tcl(Monitor * m)
+@@ -1234,6 +1235,82 @@ tcl(Monitor * m)
  	}
  }
  
@@ -19,76 +19,54 @@ index 2661d55..26ea4ce 100644
 +{
 +	int x, y, h, w, mw, sw, bdw;
 +	unsigned int i, n;
-+	Client * c;
++	Client *c;
 +
-+  // n total number of cs
-+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) ;
 +	if (n == 0)
 +		return;
 +
-+  // master 
++	if (n - MIN(n, m->nmaster) <= 1) {
++		w = m->ww / n;
++		for (i = 0, c = nexttiled(m->clients); c && i < n;
++		     i++, c = nexttiled(c->next)) {
++			resize(c, m->wx + i * w, m->wy, w, m->wh, False);
++		}
++		return;
++	}
++
 +	mw = m->mfact * m->ww;
 +	sw = (m->ww - mw) / 2;
 +
-+  // Master
-+  // n = 3
-+  // nmaster = 2 
-+  // n = 2
-+  // nmaster = 1
-+  int minn = MIN(m->nmaster, n);
-+  for(i = 0, c = nexttiled(m->clients) ; c && i < minn; i++, c = nexttiled(c->next))
-+  {
-+    resize(c,
-+        m->wx + sw + (i * mw / m->nmaster),
-+        m->wy,
-+        mw / m->nmaster,
-+        m->wh,
-+        False);
-+  }
++	for (i = 0, c = nexttiled(m->clients); c && i < MIN(m->nmaster, n);
++	     i++, c = nexttiled(c->next)) {
++		resize(c, m->wx + sw + (i * mw / m->nmaster), m->wy,
++		       mw / m->nmaster, m->wh, False);
++	}
 +	bdw = (2 * c->bw);
 +
-+  n -= minn;
++	n -= MIN(m->nmaster, n);
 +
-+  if(n <= 0)
-+    return;
++	if (n <= 0)
++		return;
 +
 +	w = (m->ww - mw) / 2;
 +
-+  if(n == 1)
-+  {
-+    x = sw + mw;
-+    y = m->wy;
-+    h = m->wh;
++	// right column
++	x = sw + mw;
++	y = m->wy;
++	h = m->wh / (n / 2);
 +
-+    resize(c,
-+        x,
-+        y,
-+        w,
-+        m->wh,
-+        False);
-+    return;
-+  }
++	if (h < bh)
++		h = m->wh;
 +
-+  // right column
-+  x = sw + mw;
-+  y = m->wy;
-+  h = m->wh / (n / 2);
++	for (i = 0; c && i < n / 2; c = nexttiled(c->next), i++) {
++		resize(c,
++		       x,
++		       y, w, (i + 1 == n / 2) ? m->wy + m->wh - y : h, False);
 +
-+  if (h < bh)
-+    h = m->wh;
-+
-+  for (i = 0; c && i < n / 2; c = nexttiled(c->next), i++)
-+  {
-+    resize(c,
-+        x,
-+        y,
-+        w,
-+        (i + 1 == n / 2) ? m->wy + m->wh - y: h,
-+        False);
-+
-+    if (h != m->wh)
-+      y = c->y + HEIGHT(c);
-+  }
++		if (h != m->wh)
++			y = c->y + HEIGHT(c);
++	}
 +
 +	x = (n + 1 / 2) == 1 ? mw : m->wx;
 +	y = m->wy;
@@ -97,14 +75,14 @@ index 2661d55..26ea4ce 100644
 +	if (h < bh)
 +		h = m->wh;
 +
-+  // left column
-+	for (i = 0; c; c = nexttiled(c->next), i++)
-+	{
++	// left column
++	for (i = 0; c; c = nexttiled(c->next), i++) {
 +		resize(c,
 +		       x,
 +		       y,
 +		       (i + 1 == (n + 1) / 2) ? w - bdw : w - bdw,
-+		       (i + 1 == (n + 1) / 2) ? m->wy + m->wh - y - bdw : h - bdw,
++		       (i + 1 ==
++			(n + 1) / 2) ? m->wy + m->wh - y - bdw : h - bdw,
 +		       False);
 +
 +		if (h != m->wh)
