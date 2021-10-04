@@ -44,7 +44,7 @@ prepare() {
   cp "$startdir/config.h" .
 
   #n masters center column layout
-  git apply $startdir/patches/dwm-A786211-updates.diff
+  git apply $startdir/patches/dwm-a786211-updates.diff
 }
 
 build() {
