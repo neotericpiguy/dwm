@@ -1,5 +1,5 @@
 diff --git a/dwm.c b/dwm.c
-index 5e4d494..f42a8f5 100644
+index 5e4d494..855c4a8 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -49,11 +49,12 @@
@@ -521,10 +521,10 @@ index 5e4d494..f42a8f5 100644
 +
 +	for (i = 0, c = nexttiled(m->clients); c && i < MIN(m->nmaster, n);
 +	     i++, c = nexttiled(c->next)) {
-+		resize(c, m->wx + sw + (i * mw / m->nmaster), m->wy,
++		resize(c, m->wx + sw + (i * mw / m->nmaster) - (2 * c->bw + gappx), m->wy,
 +		       mw / m->nmaster, m->wh, False);
 +	}
-+	bdw = (2 * c->bw);
++	bdw = (2 * c->bw) + gappx;
 +
 +	n -= MIN(m->nmaster, n);
 +
