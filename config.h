@@ -3,6 +3,8 @@
 #include "push.c"
 #include "zoomswap.c"
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
 static const unsigned int gappx    = 1;    /* gap pixel between windows */
 static const unsigned int borderpx = 1;    /* border pixel of windows */
@@ -78,40 +80,47 @@ static const char* emojicmd[] = {"dmenu-emoji.sh", NULL};
 static const char* snipcmd[] = {"snip", NULL};
 static const char* phonecmd[] = {"phone", NULL};
 
+static const char *mutecmd[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+static const char *volupcmd[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
+static const char *voldowncmd[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
+
 static Key keys[] = {
     /* modifier                     key        function        argument */
-    {MODKEY | ShiftMask, XK_e,      spawn,          {.v = emojicmd}},
-    {MODKEY | ShiftMask, XK_p,      spawn,          {.v = passmenucmd}},
-    {MODKEY | ShiftMask, XK_s,      spawn,          {.v = snipcmd}},
-    {MODKEY | ShiftMask, XK_a,      spawn,          {.v = phonecmd}},
-    {MODKEY,             XK_p,      spawn,          {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_Return, spawn,          {.v = termcmd}},
-    {MODKEY | ShiftMask, XK_l,      spawn,          {.v = slockcmd}},
-    {MODKEY | ShiftMask, XK_n,      spawn,          {.v = chromecmd}},
-    {MODKEY,             XK_b,      togglebar,      {0}},
-    {MODKEY,             XK_j,      focusstack,     {.i = +1}},
-    {MODKEY,             XK_k,      focusstack,     {.i = -1}},
-    {MODKEY,             XK_i,      incnmaster,     {.i = +1}},
-    {MODKEY,             XK_d,      incnmaster,     {.i = -1}},
-    {MODKEY,             XK_h,      setmfact,       {.f = -0.05}},
-    {MODKEY,             XK_l,      setmfact,       {.f = +0.05}},
-    {MODKEY,             XK_Return, zoom,           {0}},
-    {MODKEY,             XK_Tab,    view,           {0}},
-    {MODKEY | ShiftMask, XK_w,      killclient,     {0}},
-    {MODKEY | ShiftMask, XK_j,      pushdown,       {.i = +1}},
-    {MODKEY | ShiftMask, XK_k,      pushup,         {.i = -1}},
-    {MODKEY,             XK_t,      setlayout,      {.v = &layouts[0]}},
-    {MODKEY,             XK_f,      setlayout,      {.v = &layouts[1]}},
-    {MODKEY,             XK_m,      setlayout,      {.v = &layouts[2]}},
-    {MODKEY,             XK_c,      setlayout,      {.v = &layouts[3]}},
-    {MODKEY,             XK_space,  setlayout,      {0}},
-    {MODKEY | ShiftMask, XK_space,  togglefloating, {0}},
-    {MODKEY,             XK_0,      view,           {.ui = ~0}},
-    {MODKEY | ShiftMask, XK_0,      tag,            {.ui = ~0}},
-    {MODKEY,             XK_comma,  focusmon,       {.i = -1}},
-    {MODKEY,             XK_period, focusmon,       {.i = +1}},
-    {MODKEY | ShiftMask, XK_comma,  tagmon,         {.i = -1}},
-    {MODKEY | ShiftMask, XK_period, tagmon,         {.i = +1}},
+    {MODKEY | ShiftMask, XK_e,                     spawn,          {.v = emojicmd}},
+    {MODKEY | ShiftMask, XK_p,                     spawn,          {.v = passmenucmd}},
+    {MODKEY | ShiftMask, XK_s,                     spawn,          {.v = snipcmd}},
+    {MODKEY | ShiftMask, XK_a,                     spawn,          {.v = phonecmd}},
+    {MODKEY,             XK_p,                     spawn,          {.v = dmenucmd}},
+    {MODKEY | ShiftMask, XK_Return,                spawn,          {.v = termcmd}},
+    {MODKEY | ShiftMask, XK_l,                     spawn,          {.v = slockcmd}},
+    {MODKEY | ShiftMask, XK_n,                     spawn,          {.v = chromecmd}},
+    {MODKEY,             XK_b,                     togglebar,      {0}},
+    {MODKEY,             XK_j,                     focusstack,     {.i = +1}},
+    { 0,                 XF86XK_AudioMute,         spawn,          {.v = mutecmd } },
+    { 0,                 XF86XK_AudioLowerVolume,  spawn,          {.v = voldowncmd } },
+    { 0,                 XF86XK_AudioRaiseVolume,  spawn,          {.v = volupcmd } },
+    {MODKEY,             XK_k,                     focusstack,     {.i = -1}},
+    {MODKEY,             XK_i,                     incnmaster,     {.i = +1}},
+    {MODKEY,             XK_d,                     incnmaster,     {.i = -1}},
+    {MODKEY,             XK_h,                     setmfact,       {.f = -0.05}},
+    {MODKEY,             XK_l,                     setmfact,       {.f = +0.05}},
+    {MODKEY,             XK_Return,                zoom,           {0}},
+    {MODKEY,             XK_Tab,                   view,           {0}},
+    {MODKEY | ShiftMask, XK_w,                     killclient,     {0}},
+    {MODKEY | ShiftMask, XK_j,                     pushdown,       {.i = +1}},
+    {MODKEY | ShiftMask, XK_k,                     pushup,         {.i = -1}},
+    {MODKEY,             XK_t,                     setlayout,      {.v = &layouts[0]}},
+    {MODKEY,             XK_f,                     setlayout,      {.v = &layouts[1]}},
+    {MODKEY,             XK_m,                     setlayout,      {.v = &layouts[2]}},
+    {MODKEY,             XK_c,                     setlayout,      {.v = &layouts[3]}},
+    {MODKEY,             XK_space,                 setlayout,      {0}},
+    {MODKEY | ShiftMask, XK_space,                 togglefloating, {0}},
+    {MODKEY,             XK_0,                     view,           {.ui = ~0}},
+    {MODKEY | ShiftMask, XK_0,                     tag,            {.ui = ~0}},
+    {MODKEY,             XK_comma,                 focusmon,       {.i = -1}},
+    {MODKEY,             XK_period,                focusmon,       {.i = +1}},
+    {MODKEY | ShiftMask, XK_comma,                 tagmon,         {.i = -1}},
+    {MODKEY | ShiftMask, XK_period,                tagmon,         {.i = +1}},
     TAGKEYS(                        XK_1,           0)
     TAGKEYS(                        XK_2,           1)
     TAGKEYS(                        XK_3,           2)
