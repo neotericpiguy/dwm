@@ -1,6 +1,6 @@
 pkgname=dwm-git
 _pkgname=dwm
-pkgver=20210820.a786211
+pkgver=20240608.5687f46
 pkgrel=1
 pkgdesc="A dynamic window manager for X with useful patches"
 arch=('i686' 'x86_64')
@@ -38,13 +38,17 @@ prepare() {
   -e 's/LDFLAGS *=/LDFLAGS +=/g' \
   -i config.mk
 
-  git reset --hard a786211
+#  git reset --hard a786211
+  git reset --hard 5687f46
   rm -f push.c zoomswap.c
 
   cp "$startdir/config.h" .
 
   #n masters center column layout
-  git apply $startdir/patches/dwm-a786211-updates.diff
+#  git apply $startdir/patches/dwm-a786211-updates.diff
+
+  git apply $startdir/patches/dwm-5687f46-updates.diff
+
 }
 
 build() {
