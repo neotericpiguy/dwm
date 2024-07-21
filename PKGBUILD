@@ -13,11 +13,6 @@ provides=("$_pkgname")
 conflicts=("$_pkgname")
 epoch=1
 
-# source=("$_pkgname::git+http://git.suckless.org/dwm"
-#         'config.h')
-# md5sums=('SKIP'
-#          'SKIP')
-
 source=("$_pkgname::git+http://git.suckless.org/dwm")
 md5sums=('SKIP')
 
@@ -38,17 +33,12 @@ prepare() {
   -e 's/LDFLAGS *=/LDFLAGS +=/g' \
   -i config.mk
 
-#  git reset --hard a786211
   git reset --hard 5687f46
   rm -f push.c zoomswap.c
 
   cp "$startdir/config.h" .
 
-  #n masters center column layout
-#  git apply $startdir/patches/dwm-a786211-updates.diff
-
   git apply $startdir/patches/dwm-5687f46-updates.diff
-
 }
 
 build() {
